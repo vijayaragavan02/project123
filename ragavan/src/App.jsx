@@ -1,22 +1,27 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Dashboard from "./Components/DashBoard";
-import { isAuthenticated } from "./Utils/Auth";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import { TransactionsProvider } from "./Utils/TransactionsContext";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route
-          path="/dashboard"
-          element={
-            isAuthenticated() ? <Dashboard/> : <Navigate to="/" replace />
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+    <TransactionsProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </TransactionsProvider>
   );
 };
 
