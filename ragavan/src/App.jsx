@@ -1,7 +1,9 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Login";
 import Dashboard from "./Components/DashBoard";
+import Profile from "./Components/Profile";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { TransactionsProvider } from "./Utils/TransactionsContext";
 
@@ -19,6 +21,14 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TransactionsProvider>
@@ -26,4 +36,5 @@ const App = () => {
 };
 
 export default App;
+
 
