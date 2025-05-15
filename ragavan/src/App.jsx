@@ -1,36 +1,21 @@
-
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Components/Login";
-import Dashboard from "./Components/DashBoard";
-import Profile from "./Components/Profile";
-import ProtectedRoute from "./Components/ProtectedRoute";
-import { TransactionsProvider } from "./Utils/TransactionsContext";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Pages/Login';
+import Dashboard from './Pages/DashBoard';
+import Profile from './Pages/Profile';
+import ProtectedRoute from './Routes/ProtectedRoute';
+import { TransactionsProvider } from './Contexts/TransactionContext';
 
 const App = () => {
   return (
     <TransactionsProvider>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </TransactionsProvider>
   );
 };
