@@ -1,25 +1,37 @@
+
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Pages/Login';
 import Dashboard from './Pages/DashBoard';
-import Profile from './Pages/Profile';
 import ProtectedRoute from './Routes/ProtectedRoute';
-import { TransactionsProvider } from './Contexts/TransactionContext';
+import { TransactionProvider } from './Contexts/TransactionContext';
+import { CategoryProvider } from './contexts/CategoryContext';
+import './Styles/DashboardPage.css';
+import './Styles/LoginPage.css';
 
-const App = () => {
+function App() {
   return (
-    <TransactionsProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        </Routes>
-      </Router>
-    </TransactionsProvider>
+    <BrowserRouter>
+      <TransactionProvider>
+        <CategoryProvider>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </CategoryProvider>
+      </TransactionProvider>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
+
 
 

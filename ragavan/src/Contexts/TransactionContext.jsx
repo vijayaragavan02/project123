@@ -1,33 +1,35 @@
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-export const TransactionsContext = createContext();
+export const TransactionContext = createContext();
 
-export const TransactionsProvider = ({ children }) => {
+export const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    const storedTransactions = JSON.parse(localStorage.getItem('transactions')) || [];
-    setTransactions(storedTransactions);
+    const saved = localStorage.getItem('transactions');
+    if (saved) setTransactions(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
     localStorage.setItem('transactions', JSON.stringify(transactions));
   }, [transactions]);
 
-  const addTransaction = transaction => {
-    setTransactions([...transactions, { ...transaction, id: Date.now() }]);
+  const addTransaction = (data) => {
+    const newTransaction = { ...data, id: Date.now() };
+    setTransactions(prev => [...prev, newTransaction]);
   };
 
-  const deleteTransaction = id => {
-    setTransactions(transactions.filter(t => t.id !== id));
+  const deleteTransaction = (id) => {
+    setTransactions(prev => prev.filter(t => t.id !== id));
   };
 
-  const editTransaction = updated => {
-    setTransactions(transactions.map(t => (t.id === updated.id ? updated : t)));
+  const editTransaction = (updated) => {
+    setTransactions(prev => prev.map(t => (t.id === updated.id ? updated : t)));
   };
 
   return (
-    <TransactionsContext.Provider
+    <TransactionContext.Provider
       value={{
         transactions,
         addTransaction,
@@ -36,8 +38,8 @@ export const TransactionsProvider = ({ children }) => {
       }}
     >
       {children}
-    </TransactionsContext.Provider>
+    </TransactionContext.Provider>
   );
 };
 
-export const useTransactions = () => useContext(TransactionsContext);
+export const useTransactionContext = () => useContext(TransactionContext);

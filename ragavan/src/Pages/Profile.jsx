@@ -1,10 +1,24 @@
+
 import React from 'react';
+import AuthService from '../services/AuthService';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Profile = () => {
+  const username = AuthService.getUsername();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    AuthService.logout();
+    navigate('/');
+  };
+
   return (
-    <div>
-      <h2>User Profile</h2>
-      <p>This page can contain profile settings.</p>
+    <div className="profile-card">
+      <h3>User Profile</h3>
+      <p><strong>Name:</strong> {username}</p>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
